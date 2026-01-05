@@ -17,7 +17,11 @@ public class Instructor extends Person implements Teacher {
     @Override
     public void lecture(Iterable<? extends Learner> learners, double numberOfHours) {
         int count = 0;
-        for (Learner l : learners) count++;
+        var it = learners.iterator();
+        while (it.hasNext()) {
+            it.next();
+            count++;
+        }
         double hoursPerLearner = numberOfHours / count;
         for (Learner l : learners) {
             l.learn(hoursPerLearner);
