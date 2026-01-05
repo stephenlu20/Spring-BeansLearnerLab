@@ -15,10 +15,11 @@ public class Alumni {
 
     @PostConstruct
     public void executeBootcamp() {
-        double totalHours = 1200;
+        double totalHoursPerStudent = 1200;
         int numStudents = previousStudents.size();
         int numInstructors = instructors.size();
-        double hoursPerInstructor = (totalHours * numStudents) / numInstructors;
+        double totalHours = totalHoursPerStudent * numStudents;
+        double hoursPerInstructor = totalHours / numInstructors;
 
         for (Instructor inst : instructors) {
             inst.lecture(previousStudents, hoursPerInstructor);

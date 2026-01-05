@@ -2,43 +2,39 @@ package com.bean.lab.config;
 
 import com.bean.lab.model.Instructor;
 import com.bean.lab.model.Instructors;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Configuration
 public class InstructorsConfig {
 
-    @Bean
+    @Bean("tcUsaInstructors")
     public Instructors tcUsaInstructors() {
-        return new Instructors(new ArrayList<>(
-                Arrays.asList(
-                    new Instructor(1, "John"),
-                    new Instructor(2, "Jane")           
-            ))
+        return new Instructors(
+                new Instructor(1, "John"),
+                new Instructor(2, "Jane")
         );
     }
 
-    @Bean
+    @Bean("tcUkInstructors")
     public Instructors tcUkInstructors() {
-        return new Instructors(new ArrayList<>(
-                Arrays.asList(
-                    new Instructor(3, "Peter"),
-                    new Instructor(4, "Mary")
-            ))
+        return new Instructors(
+                new Instructor(3, "Peter"),
+                new Instructor(4, "Mary")
         );
     }
 
     @Bean
     @Primary
-    public Instructors instructors() {
+    public Instructors instructors(
+            @Qualifier("tcUsaInstructors") Instructors usa,
+            @Qualifier("tcUkInstructors") Instructors uk
+    ) {
         Instructors all = new Instructors();
-        all.addAll(tcUsaInstructors());
-        all.addAll(tcUkInstructors());
+        all.addAll(usa);
+        all.addAll(uk);
         return all;
     }
 }
